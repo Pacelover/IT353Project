@@ -1,12 +1,17 @@
 from django.shortcuts import render
 import requests
 from .models import City
+from .forms import CityForm
 
 # Create your views here.
 def index(request):
     # API
     url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=imperial&appid=60191ca9e0dc4470867884ba38fd64d8'
     cities = City.objects.all() # return all cities in db
+    if request.method == 'POST': # form submitted
+        form = CityForm(request.POST)
+        form.save()
+    form = CityForm()
     weather_data = []
     for city in cities:
         # Request API data and convert to json type
@@ -20,6 +25,6 @@ def index(request):
             'icon': city_weather['weather'][0]['icon']
         }
         weather_data.append(weather)
-    context = {'weather_data': weather_data}
+    context = {'weather_data': weather_data, 'form': form}
     print(weather)
     return render(request, 'weather/index.html', context) # returns the index.html template
