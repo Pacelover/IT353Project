@@ -12,7 +12,7 @@
         <div class="hero-body">
             <div class="container">
                 <h1 class="title">
-                    What's the weather like?
+                    What should you wear given the weather?
                 </h1>
             </div>
         </div>
@@ -29,7 +29,7 @@
                             </div>
                             <div class="control">
                                 <button class="button is-info">
-                                    Add City
+                                    Find City
                                 </button>
                             </div>
                         </div>
@@ -42,7 +42,6 @@
         <div class="container">
             <div class="columns">
                 <div class="column is-offset-4 is-4">
-                    {% for weather in weather_data %}
                     <div class="box">
                         <article class="media">
                             <div class="media-left">
@@ -62,7 +61,6 @@
                             </div>
                         </article>
                     </div>
-                    {% endfor %}
                 </div>
             </div>
         </div>

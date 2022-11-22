@@ -7,24 +7,23 @@ from .forms import CityForm
 def index(request):
     # API
     url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=imperial&appid=60191ca9e0dc4470867884ba38fd64d8'
-    cities = City.objects.all() # return all cities in db
-    if request.method == 'POST': # form submitted
+    # cities = City.objects.all() # return all cities in db
+    cityName = 'Normal'
+    if request.method == 'POST':
         form = CityForm(request.POST)
-        form.save()
+        cityName = request.POST['name']
+        form.save
     form = CityForm()
-    weather_data = []
-    for city in cities:
-        # Request API data and convert to json type
-        city_weather = requests.get(url.format(city)).json()
-        print(city_weather)
-        # dictionary that stores weather data retrieved by user
-        weather = {
-            'city': city,
-            'temperature': city_weather['main']['temp'],
-            'description': city_weather['weather'][0]['description'],
-            'icon': city_weather['weather'][0]['icon']
-        }
-        weather_data.append(weather)
-    context = {'weather_data': weather_data, 'form': form}
+    # Request API data and convert to json type
+    city = requests.get(url.format(cityName)).json()
+    print(city)
+    # dictionary that stores weather data retrieved by user
+    weather = {
+        'city': city['name'],
+        'temperature': city['main']['temp'],
+        'description': city['weather'][0]['description'],
+        'icon': city['weather'][0]['icon']
+    }
+    context = {'weather': weather, 'form': form}
     print(weather)
     return render(request, 'weather/index.html', context) # returns the index.html template
