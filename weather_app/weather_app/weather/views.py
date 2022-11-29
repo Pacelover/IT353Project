@@ -16,7 +16,7 @@ def index(request):
     form = CityForm()
     # Request API data and convert to json type
     city = requests.get(url.format(cityName)).json()
-    print(city)
+    #print(city)
     # dictionary that stores weather data retrieved by user
     weather = {
         'city': city['name'],
@@ -25,5 +25,5 @@ def index(request):
         'icon': city['weather'][0]['icon']
     }
     context = {'weather': weather, 'form': form}
-    print(weather)
+    #print(weather)
     return render(request, 'weather/index.html', context) # returns the index.html template
