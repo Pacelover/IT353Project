@@ -2,6 +2,7 @@ from django.shortcuts import render
 import requests
 from .models import City
 from .forms import CityForm
+from django.contrib.gis.utils import GeoIP
 
 # Create your views here.
 def index(request):
@@ -9,6 +10,15 @@ def index(request):
     url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=imperial&appid=60191ca9e0dc4470867884ba38fd64d8'
     # cities = City.objects.all() # return all cities in db
     cityName = 'Normal'
+
+    #get location from ip
+    #src https://stackoverflow.com/questions/2218093/django-retrieve-ip-location 
+    g = GeoIP()
+    ip = request.META.get('REMOTE_ADDR', None)
+    if ip:
+        cityName = g.city(ip)['city']
+        
+        
     if request.method == 'POST':
         form = CityForm(request.POST)
         cityName = request.POST['name']
