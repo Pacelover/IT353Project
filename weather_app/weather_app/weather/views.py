@@ -2,7 +2,7 @@ from django.shortcuts import render
 import requests
 from .models import City
 from .forms import CityForm
-from django.contrib.gis.utils import GeoIP
+from django.contrib.gis.geoip2 import GeoIP2
 
 # Create your views here.
 def index(request):
@@ -13,10 +13,10 @@ def index(request):
 
     #get location from ip
     #src https://stackoverflow.com/questions/2218093/django-retrieve-ip-location 
-    g = GeoIP()
+    g = GeoIP2()
     ip = request.META.get('REMOTE_ADDR', None)
     if ip:
-        cityName = g.city(ip)['city']
+        cityName = g.city(ip)
         
         
     if request.method == 'POST':
