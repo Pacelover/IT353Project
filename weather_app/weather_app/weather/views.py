@@ -41,7 +41,9 @@ def index(request):
             'city': city['name'] + ', ' + state,
             'temperature': city['main']['temp'],
             'description': city['weather'][0]['description'],
-            'icon': city['weather'][0]['icon']
+            'icon': city['weather'][0]['icon'],
+            'feels like': city['main']['feels_like'],
+            'humidity': city['main']['humidity']
         }
     except:
         print("City not found")
