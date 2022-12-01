@@ -102,7 +102,13 @@ def get_clothing(temp,units,windchill,humidity):
     temp_in_kelvin = get_kelvin(temp, units)
     
     # https://en.wikipedia.org/wiki/Clothing_insulation
-    clothing_to_clo = {0:"naked",1:"normal",2:"light",2.5:"medium",3:"heavy",4:"pro"}
+    clothing_to_clo = {0:"naked",
+                       1:"normal",
+                       2:"light",
+                       2.5:"medium",
+                       3:"heavy",
+                       4:"pro"
+                       }
     
     if temp_in_kelvin<294.817:
         if windchill<temp:
@@ -127,57 +133,57 @@ def get_clothing(temp,units,windchill,humidity):
         for pair in req:
             if pair[0]=="resting":
                 if pair[1]=="naked":
-                    return "Go out and give the twins some air... And make your neighbors regret their windows."
+                    return "Nudity works for today.\nGo out and give the twins some air... And make your neighbors regret their windows."
                 elif pair[1]=="normal":
-                    return "I don't need to tell you what to wear. You'll be fine."
+                    return "Casual attire.\nI don't need to tell you what to wear. You'll be fine."
                 elif pair[1]=="light":
-                    return "A decent sweater should get you by."
+                    return "Long pants and sleeved shirts.\nA decent sweater should get you by."
                 elif pair[1]=="medium":
-                    return "Hats and gloves and jackets. Keep your limbs and fleshy bits warm."
+                    return "Thick down or fur coats. Hats and gloves.\nHats and gloves and jackets. Keep your limbs and fleshy bits warm."
                 elif pair[1]=="heavy":
-                    return "Bundle up. Batten down the hatches. It's cold."
+                    return "The. Warmest. Thing. You. Own.\nBundle up. Batten down the hatches. It's cold."
                 elif pair[1]=="pro":
-                    return "If you own some Arctic-Grade equipment, you shouldn't need me to tell you to wear it. If you don't, you should be sure to keep moving if you go outside."
+                    return "If you own some Arctic-Grade equipment, now's a good time to wear it. If you don't, you should be sure to keep moving if you go outside."
                 
             elif pair[0]=="walking":
                 if pair[1]=="naked":
-                    return "You can have a walk about town in your \"Birthday Suit\" if you like."
+                    return "Nudity works for today.\nYou can have a walk about town in your \"Birthday Suit\" if you like."
                 elif pair[1]=="normal":
-                    return "So long as you don't sit still, you won't notice the chill no matter what you wear."
+                    return "Casual attire.\nSo long as you don't sit still, you won't notice the chill no matter what you wear."
                 elif pair[1]=="light":
-                    return "Grab a coat and have a walk."
+                    return "Long pants and sleeved shirts.\nGrab a coat and have a walk."
                 elif pair[1]=="medium":
-                    return "Wear something warm and keep moving."
+                    return "Thick down or fur coats. Hats and gloves.\nWear something warm and keep moving."
                 elif pair[1]=="heavy":
-                    return "If you don't look like a bundled up Pillsbury Doughboy walking down the street, you will be cold."
+                    return "The. Warmest. Thing. You. Own.\nIf you don't look like a bundled up Pillsbury Doughboy walking down the street, you will be cold."
                 elif pair[1]=="pro":
                     return "Dust off your moose-hide parkas, it's time to walk to the next ice-fishing hole."
                 
             elif pair[0]=="jogging":
                 if pair[1]=="naked":
-                    return "If you plan on jogging the whole way, you should be able to survive going naked."
+                    return "Nudity works for today.\nIf you plan on jogging the whole way, you should be able to survive going naked."
                 elif pair[1]=="normal":
-                    return "If you're going on an exercise run, a T-Shirt will work."
+                    return "Casual attire.\nIf you're going on an exercise run, a T-Shirt will work."
                 elif pair[1]=="light":
-                    return "It is a cold day, even for joggers. No one wears shorts on a day like this."
+                    return "Long pants and sleeved shirts.\nIt is a cold day, even for joggers. No one wears shorts on a day like this."
                 elif pair[1]=="medium":
-                    return "You will want to get dressed. It is not warm."
+                    return "Thick down or fur coats. Hats and gloves.\nYou will want to get dressed. It is not warm. And, if you do anything other than go for a run, you'll feel it."
                 elif pair[1]=="heavy":
-                    return "If you must go outside, dress VERY warmly and don't stop moving."
+                    return "The. Warmest. Thing. You. Own.\nIf you must go outside, dress VERY warmly and don't stop moving."
                 elif pair[1]=="pro":
                     return "The seal hunt is starting without you. Grab your mukluks and get a move on."
                 
             elif pair[0]=="sprinting":
                 if pair[1]=="naked":
-                    return "Run like a headless chicken and you will be plenty warm."
+                    return "Nudity works for today.\nRun like a headless chicken and you will be plenty warm."
                 elif pair[1]=="normal":
-                    return "If today's the marathon, you can leave your coat behind. Otherwise..."
+                    return "Casual attire.\nIf today's the marathon, you can leave your coat behind. Otherwise..."
                 elif pair[1]=="light":
-                    return "Grab your Cliff-Bar, running shoes and coat. It is chilly out there."
+                    return "Long pants and sleeved shirts.\nGrab your Cliff-Bar, running shoes and coat. It is chilly out there."
                 elif pair[1]=="medium":
-                    return "Even if you're running for your life, I hope you're dressed well. Frostbite awaits otherwise."
+                    return "Thick down or fur coats. Hats and gloves.\nEven if you're running for your life, I hope you're dressed well. Frostbite awaits otherwise."
                 elif pair[1]=="heavy":
-                    return "You should run. As fast as you can. Back home to grab as many coats as you can wear."
+                    return "The. Warmest. Thing. You. Own.\nYou should run. As fast as you can. Back home to grab as many coats as you can wear."
                 elif pair[1]=="pro":
                     return "Run like you are a well-insulated Arctic researcher and a polar bear is chasing you."
         
