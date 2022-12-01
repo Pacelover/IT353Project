@@ -11,15 +11,16 @@ def index(request):
     # cities = City.objects.all() # return all cities in db
     cityName = 'Normal'
 
-    try:
-        #get location from ip
-        #src https://stackoverflow.com/questions/2218093/django-retrieve-ip-location 
-        g = GeoIP2()
-        ip = request.META.get('REMOTE_ADDR', None)
-        if ip:
-            cityName = g.city(ip)
-    except:
-        pass
+    # try:
+    #get location from ip
+    #src https://stackoverflow.com/questions/2218093/django-retrieve-ip-location 
+    g = GeoIP2()
+    ip = request.META.get('REMOTE_ADDR', None)
+    if ip:
+        cityName = g.city(ip)
+        print("Successfully acquired location from IP")
+    # except:
+    #     pass
         
     if request.method == 'POST':
         form = CityForm(request.POST)
