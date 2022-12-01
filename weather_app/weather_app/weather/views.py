@@ -2,7 +2,6 @@ from django.shortcuts import render
 import requests
 from .models import City
 from .forms import CityForm
-import geoip2.database
 from . import match_clothing
 
 # Create your views here.
@@ -11,20 +10,6 @@ def index(request):
     url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=imperial&appid=60191ca9e0dc4470867884ba38fd64d8'
     # cities = City.objects.all() # return all cities in db
     cityName = 'Normal'
-
-    try:
-        # get location from ip
-        # src https://stackoverflow.com/questions/2218093/django-retrieve-ip-location 
-        g = geoip2.database.Reader('../../geoip/GeoLite2-City.mmdb')
-        ip = request.META.get('REMOTE_ADDR', None)
-        if ip:
-            if ip=='127.0.0.1':
-                print("Can't find a location from a localhost, dummy")
-            else:
-                cityName = g.city(ip)
-                print("Successfully acquired location from IP")
-    except:
-        pass
         
     if request.method == 'POST':
         form = CityForm(request.POST)
@@ -50,6 +35,7 @@ def index(request):
             'feels like': city['main']['feels_like'],
             'humidity': city['main']['humidity']
         }
+        clothStr = match_clothing.get_clothing(weather.get('temperature'), 'F', weather.get('feels like'), weather.get('humidity'))
     except:
         print("City not found")
         weather = {
@@ -59,7 +45,7 @@ def index(request):
             'description': '',
             'icon': ''
         }
+        clothStr = ''
     #print(weather)
-    clothStr = match_clothing.get_clothing(weather.get('temperature'), 'F', weather.get('feels like'), weather.get('humidity'))
     context = {'weather': weather, 'form': form,'cloth':clothStr}
     return render(request, 'weather/index.html', context) # returns the index.html template

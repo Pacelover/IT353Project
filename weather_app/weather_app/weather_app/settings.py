@@ -28,8 +28,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-GEOIP_PATH = os.path.join(BASE_DIR, 'geoip')
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -40,7 +38,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     'weather',
-    'geoip2'
 ]
 
 MIDDLEWARE = [
