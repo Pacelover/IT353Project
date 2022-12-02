@@ -37,7 +37,7 @@ thrm_cond = {-190+273.15:7.82,
 
 def required_clo(temp, meta_heat):
     #human skin surface area ~= 1.75 meters        
-    return abs((temp-304.15)/(-0.190*meta_heat))
+    return abs(((temp-304.15)/(-0.190*meta_heat))-0.5)
 
 def get_survive_time(temp):
     healthK = 310.15 # == 98.6 degrees F
