@@ -3,6 +3,7 @@ import requests
 from .models import City
 from .forms import CityForm
 from . import match_clothing
+import geoip2.database
 
 # Create your views here.
 def index(request,localle_escape=False):
@@ -69,7 +70,6 @@ def index(request,localle_escape=False):
             'icon': ''
         }
         clothStr = ''
-    #print(weather)
         return index(request,localle_escape=True)
         # weather = {
         #     'city': 'DEFAULT',
@@ -80,7 +80,5 @@ def index(request,localle_escape=False):
         #     'feels like':'70',
         #     'humidity':'50'
         # }
-    #print(weather)
-    clothStr = match_clothing.get_clothing(float(weather.get('temperature')), 'F', float(weather.get('feels like')), float(weather.get('humidity')))
     context = {'weather': weather, 'form': form,'cloth':clothStr}
     return render(request, 'weather/index.html', context) # returns the index.html template
