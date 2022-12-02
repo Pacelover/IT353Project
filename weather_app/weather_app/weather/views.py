@@ -5,17 +5,40 @@ from .forms import CityForm
 from . import match_clothing
 
 # Create your views here.
-def index(request):
+def index(request,localle_escape=False):
     # API
     url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=imperial&appid=60191ca9e0dc4470867884ba38fd64d8'
     # cities = City.objects.all() # return all cities in db
     cityName = 'Normal'
+    form = None
+
+    if not localle_escape:
+        try:
+            # get location from ip
+            # src https://stackoverflow.com/questions/2218093/django-retrieve-ip-location 
+            g = geoip2.database.Reader('../../geoip/GeoLite2-City.mmdb')
+            x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+            ip = None
+            if x_forwarded_for:
+                ip = x_forwarded_for.split(',')[0]
+            else:
+                ip = request.META.get('REMOTE_ADDR')
+            if ip:
+                if ip=='127.0.0.1':
+                    print("Can't find a location from a localhost, dummy")
+                    cityName = g.city('69.174.155.10')
+                else:
+                    cityName = g.city(ip)
+                    print("Successfully acquired location from IP")
+            
+        except:
+            pass
         
-    if request.method == 'POST':
-        form = CityForm(request.POST)
-        cityName = request.POST['name']
-        form.save
-    form = CityForm()
+        if request.method == 'POST':
+            form = CityForm(request.POST)
+            cityName = request.POST['name']
+            form.save
+        form = CityForm()
     # Request API data and convert to json type
     city = requests.get(url.format(cityName)).json()
     try:
@@ -47,5 +70,17 @@ def index(request):
         }
         clothStr = ''
     #print(weather)
+        return index(request,localle_escape=True)
+        # weather = {
+        #     'city': 'DEFAULT',
+        #     'state': 'DEFAULT',
+        #     'temperature': '70',
+        #     'description': 'DEFAULT',
+        #     'icon': 'DEFAULT',
+        #     'feels like':'70',
+        #     'humidity':'50'
+        # }
+    #print(weather)
+    clothStr = match_clothing.get_clothing(float(weather.get('temperature')), 'F', float(weather.get('feels like')), float(weather.get('humidity')))
     context = {'weather': weather, 'form': form,'cloth':clothStr}
     return render(request, 'weather/index.html', context) # returns the index.html template
