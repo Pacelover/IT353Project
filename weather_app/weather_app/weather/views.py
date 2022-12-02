@@ -42,6 +42,7 @@ def index(request,localle_escape=False):
         form = CityForm()
     # Request API data and convert to json type
     city = requests.get(url.format(cityName)).json()
+    clothStr = None
     try:
         lon = city['coord']['lon']
         lat = city['coord']['lat']
@@ -62,15 +63,6 @@ def index(request,localle_escape=False):
         clothStr = match_clothing.get_clothing(weather.get('temperature'), 'F', weather.get('feels like'), weather.get('humidity'))
     except:
         print("City not found")
-        weather = {
-            'city': '',
-            'state': '',
-            'temperature': '',
-            'description': '',
-            'icon': ''
-        }
-        clothStr = ''
-        return index(request,localle_escape=True)
         # weather = {
         #     'city': 'DEFAULT',
         #     'state': 'DEFAULT',
@@ -80,5 +72,8 @@ def index(request,localle_escape=False):
         #     'feels like':'70',
         #     'humidity':'50'
         # }
+        # clothStr = ''
+        return index(request,localle_escape=True)
+        
     context = {'weather': weather, 'form': form,'cloth':clothStr}
     return render(request, 'weather/index.html', context) # returns the index.html template
