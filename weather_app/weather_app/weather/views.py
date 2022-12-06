@@ -1,17 +1,28 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 import requests
 from .models import City
 from .forms import CityForm
 from . import match_clothing
 import geoip2.database
+from django.views import generic
+from django.http import HttpResponseRedirect
 
 # Create your views here.
+class IndexView(generic.ListView):
+    template_name = 'weather/index.html'
+    context_object_name = 'weather_list'
+    
+    def get_queryset(self):
+        """Return all saved_cities."""
+        return City.objects.order_by('-name')
 def index(request,localle_escape=False):
     # API
     url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=imperial&appid=60191ca9e0dc4470867884ba38fd64d8'
     # cities = City.objects.all() # return all cities in db
     cityName = 'Normal'
     form = None
+
+    saved_cities = set()
 
     if not localle_escape:
         try:
@@ -26,10 +37,11 @@ def index(request,localle_escape=False):
                 ip = request.META.get('REMOTE_ADDR')
             if ip:
                 if ip=='127.0.0.1':
-                    print("Can't find a location from a localhost, dummy")
+                    print("Can't find a location")
                     cityName = g.city('69.174.155.10')
                 else:
                     cityName = g.city(ip)
+                    saved_cities.add(cityName)
                     print("Successfully acquired location from IP")
             
         except:
@@ -37,7 +49,7 @@ def index(request,localle_escape=False):
         
         if request.method == 'POST':
             form = CityForm(request.POST)
-            cityName = request.POST['name']
+            cityName = request.POST.get('name', False)
             form.save
         form = CityForm()
     # Request API data and convert to json type
@@ -77,3 +89,37 @@ def index(request,localle_escape=False):
         
     context = {'weather': weather, 'form': form,'cloth':clothStr}
     return render(request, 'weather/index.html', context) # returns the index.html template
+
+# class IndexView(generic.ListView):
+#     template_name = 'weather/index.html'
+#     context_object_name = 'weather_list'
+
+#     def get_queryset(self):
+#         """Return all the latest weathers."""
+#         return weather.objects.order_by('-created_at')
+
+def add(request):
+    name = request.POST.get('title', False)
+    
+    City.objects.create(name=name)
+    
+    print("Hello")
+    #return redirect('weather/index.html')
+    return render(request, 'weather/index.html')
+
+def delete(request, weather_id):
+    weather = get_object_or_404(City, pk=weather_id)
+    weather.delete()
+
+    return redirect('weather/index.html')
+
+def update(request, weather_id):
+    # weather = get_object_or_404(City, pk=weather_id)
+    # isCompleted = request.POST.get('isCompleted', False)
+    # if isCompleted == 'on':
+    #     isCompleted = True
+    
+    # weather.isCompleted = isCompleted
+
+    # weather.save()
+    return redirect('weather/index.html')
