@@ -12,7 +12,12 @@ def index(request,localle_escape=False):
     # cities = City.objects.all() # return all cities in db
     cityName = 'Normal'
     form = None
-
+    cities = City.objects.all() 
+    city_data = []
+    for city in cities:
+        city_data.append(city)
+        print(city)
+    print("City data" ,city_data)
     if not localle_escape:
         try:
             # get location from ip
@@ -37,7 +42,7 @@ def index(request,localle_escape=False):
         
         if request.method == 'POST':
             form = CityForm(request.POST)
-            cityName = request.POST['name']
+            cityName = request.POST.get('name', False)
             form.save
         form = CityForm()
     # Request API data and convert to json type
@@ -75,5 +80,5 @@ def index(request,localle_escape=False):
         # clothStr = ''
         return index(request,localle_escape=True)
         
-    context = {'weather': weather, 'form': form,'cloth':clothStr}
+    context = {'weather': weather, 'form': form,'cloth':clothStr, 'city_data': city_data}
     return render(request, 'weather/index.html', context) # returns the index.html template
