@@ -17,7 +17,7 @@
                 <br><br>
                 <form method="POST">
                     {% for weather in city_data %}
-                    <li name="name"> <a href="" style="color: aquamarine;" name="name">{{ weather }}</a></li>
+                    <li name="name"> <a href="?name={{ weather }}" style="color: aquamarine;" name="name">{{ weather }}</a></li>
                     {% endfor %}
                 <!-- <ul>
                     <li><button style="background-color: red;">X</button>      <a href="" style="color: aquamarine;"><u>City 1</u></a></li>
