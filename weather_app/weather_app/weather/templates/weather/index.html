@@ -15,8 +15,9 @@
                 <input placeholder="Add city">
                 <button>Add</button>
                 <br><br>
+                <form method="POST">
                     {% for weather in city_data %}
-                    <li>{{ weather }}</li>
+                    <li name="name"> <a href="" style="color: aquamarine;" name="name">{{ weather }}</a></li>
                     {% endfor %}
                 <!-- <ul>
                     <li><button style="background-color: red;">X</button>      <a href="" style="color: aquamarine;"><u>City 1</u></a></li>
@@ -42,12 +43,8 @@
                     <div class="container">
                         <div class="columns">
                             <div class="column is-offset-4 is-4">
-                                <form method="POST">
-                                    {% csrf_token %}
-                                    <div class="field has-addons" style="text-align: center;">
-                                        <!-- <div class="control is-expanded">
-                                            {{ form.name }}
-                                        </div> -->
+                                {% csrf_token %}
+                                <div class="field has-addons" style="text-align: center;">
                                         <br>
                                         <input placeholder="City Name" name="name">
                                         <button class="button is-info">
