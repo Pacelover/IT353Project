@@ -49,6 +49,8 @@ def index(request,localle_escape=False):
             print(request.GET.get('name', False))
             form = CityForm(request.GET)
             cityName = request.GET.get('name', False)
+            if cityName == False:
+                cityName = 'Normal'
             form.save
         form = CityForm()
     # Request API data and convert to json type
