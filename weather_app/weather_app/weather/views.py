@@ -1,9 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import requests
 from .models import City
 from .forms import CityForm
 from . import match_clothing
 import geoip2.database
+from django.views import generic
+from django.http import HttpResponseRedirect
 
 # Create your views here.
 def index(request,localle_escape=False):
@@ -52,6 +54,7 @@ def index(request,localle_escape=False):
             if cityName == False:
                 cityName = 'Normal'
             form.save
+            # redirect('weather:weather_data')
         form = CityForm()
     # Request API data and convert to json type
     city = requests.get(url.format(cityName)).json()
