@@ -14,7 +14,7 @@
     <label  id="dark-change"></label>
   </header>
 </head>
-<body class="parent-container d-flex">
+<body class="parent-container d-flex" onload="rectifyUrl();">
     <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 20%; height: 100vh; background-color: blue;">
 
         <div class="row">
@@ -168,5 +168,11 @@
             </div>
         </div>
     </div>
+    <script>
+    		function rectify() {
+			url = "{{ pname }}";
+			pushState("s","",url);
+		{
+    </script>
 </body>
 </html>

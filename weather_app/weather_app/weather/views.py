@@ -12,6 +12,7 @@ def index(request,localle_escape=False):
     # cities = City.objects.all() # return all cities in db
     cityName = 'Normal'
     form = None
+    cur_url = 'weather_data'
 
     if not localle_escape:
         try:
@@ -75,5 +76,5 @@ def index(request,localle_escape=False):
         # clothStr = ''
         return index(request,localle_escape=True)
         
-    context = {'weather': weather, 'form': form,'cloth':clothStr}
+    context = {'weather': weather, 'form': form,'cloth':clothStr,'pname':cur_url}
     return render(request, 'weather/index.html', context) # returns the index.html template
