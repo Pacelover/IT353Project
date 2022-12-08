@@ -103,10 +103,13 @@ def add(request):
     # for city in cities:
     #     city_data.append(city)
     #     print(city_data)
-    item = City.objects.create()
+    # item = City.objects.create()
 
-    item.setName('Chicago')
-    item.printName()
+    # item.setName('Chicago')
+    # item.printName()
+
+    form = CityForm(request.POST)
+    form.save()
 
 
     return redirect('weather:weather_data')

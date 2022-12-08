@@ -14,7 +14,10 @@
                 <h3>Saved Cities</h3>
                 <form method="POST" action="{% url 'weather:add' %}">
                 {% csrf_token %}
-                <input placeholder="Add city">
+                <div class="control is-expanded">
+                    {{ form.name }}
+                </div>
+                <!-- <input placeholder="Add city"> -->
                 <button type="submit">Add</button>
                 </form>
                 <br><br>
