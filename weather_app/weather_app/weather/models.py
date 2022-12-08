@@ -6,6 +6,12 @@ class City(models.Model):
 
     def __str__(self): #see city chosen by user
         return self.name
+
+    def setName(self, aName):
+        self.name = aName
     
+    def printName(self):
+        print(self.name)
     class Meta: #show the plural of city as cities instead of citys
         verbose_name_plural = 'cities'
+

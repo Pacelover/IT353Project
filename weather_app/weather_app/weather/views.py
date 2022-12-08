@@ -93,3 +93,27 @@ def index(request,localle_escape=False):
         
     context = {'weather': weather, 'form': form,'cloth':clothStr, 'city_data': city_data}
     return render(request, 'weather/index.html', context) # returns the index.html template
+
+def add(request):
+    # city_data = []
+
+    # cityName = request.POST.get('add', False)
+    # cities = City.objects.create(cityName)
+
+    # for city in cities:
+    #     city_data.append(city)
+    #     print(city_data)
+    item = City.objects.create()
+
+    item.setName('Chicago')
+    item.printName()
+
+
+    return redirect('weather:weather_data')
+
+    #return redirect('weather:add') OR return render(request, 'weather/index.html', context) however, you need to figure out what context will be equal to
+    # OR you might not need to return or redirect anything since it's on the same page. We probably just need to refresh the page
+
+def delete(request):
+    item = City.objects.get()
+    City.objects.delete(item)
