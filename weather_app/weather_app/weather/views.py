@@ -1,9 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import requests
 from .models import City
 from .forms import CityForm
 from . import match_clothing
 import geoip2.database
+from django.views import generic
+from django.http import HttpResponseRedirect
 
 # Create your views here.
 def index(request,localle_escape=False):
@@ -14,6 +16,12 @@ def index(request,localle_escape=False):
     form = None
     cur_url = 'weather_data'
 
+    cities = City.objects.all() 
+    city_data = []
+    for city in cities:
+        city_data.append(city)
+        print(city)
+    print("City data" ,city_data)
     if not localle_escape:
         try:
             # get location from ip
@@ -38,8 +46,17 @@ def index(request,localle_escape=False):
         
         if request.method == 'POST':
             form = CityForm(request.POST)
-            cityName = request.POST['name']
+            cityName = request.POST.get('name', False)
             form.save
+        if request.method == 'GET':
+            print('Gotten')
+            print(request.GET.get('name', False))
+            form = CityForm(request.GET)
+            cityName = request.GET.get('name', False)
+            if cityName == False:
+                cityName = 'Normal'
+            form.save
+            # redirect('weather:weather_data')
         form = CityForm()
     # Request API data and convert to json type
     city = requests.get(url.format(cityName)).json()
@@ -76,5 +93,32 @@ def index(request,localle_escape=False):
         # clothStr = ''
         return index(request,localle_escape=True)
         
-    context = {'weather': weather, 'form': form,'cloth':clothStr,'pname':cur_url}
+    context = {'weather': weather, 'form': form,'cloth':clothStr, 'city_data': city_data, 'pname':cur_url}
     return render(request, 'weather/index.html', context) # returns the index.html template
+
+def add(request):
+    # city_data = []
+
+    # cityName = request.POST.get('add', False)
+    # cities = City.objects.create(cityName)
+
+    # for city in cities:
+    #     city_data.append(city)
+    #     print(city_data)
+    # item = City.objects.create()
+
+    # item.setName('Chicago')
+    # item.printName()
+
+    form = CityForm(request.POST)
+    form.save()
+
+
+    return redirect('weather:weather_data')
+
+    #return redirect('weather:add') OR return render(request, 'weather/index.html', context) however, you need to figure out what context will be equal to
+    # OR you might not need to return or redirect anything since it's on the same page. We probably just need to refresh the page
+
+def delete(request):
+    item = City.objects.get()
+    City.objects.delete(item)
