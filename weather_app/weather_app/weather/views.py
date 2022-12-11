@@ -6,6 +6,7 @@ from . import match_clothing
 import geoip2.database
 from django.views import generic
 from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 # Create your views here.
 def index(request,localle_escape=False):
@@ -14,7 +15,7 @@ def index(request,localle_escape=False):
     # cities = City.objects.all() # return all cities in db
     cityName = 'Normal'
     form = None
-    cur_url = 'weather_data'
+    cur_url = reverse('weather:weather_data')
 
     cities = City.objects.all() 
     city_data = []
