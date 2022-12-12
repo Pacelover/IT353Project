@@ -32,8 +32,14 @@
                 <br><br>
                 <form method="POST">
                     {% for city in city_data %}
-                    <li name="name"> <a href="?name={{ city }}" style="color: aquamarine;" name="name">{{ city }}</a> <span style="float: right;"><button type="button" class="btn btn-danger btn-circle"><i class="fa-solid fa-delete-left"></i></button>
-                    </span></li>
+                    <li name="name"> <a href="?name={{ city }}" style="color: aquamarine;" name="name">{{ city }}</a> 
+                        <span style="float: right;">
+                            <form action="{% url 'weather:weather_delete' city.id %}" method="POST">
+                                {% csrf_token %}
+                                <input type="submit" value="Delete" style="display:inline-block; text-align:right">
+                            </form>
+                        </span>
+                    </li>
                     {% endfor %}
                 <!-- <ul>
                     <li><button style="background-color: red;">X</button>      <a href="" style="color: aquamarine;"><u>City 1</u></a></li>

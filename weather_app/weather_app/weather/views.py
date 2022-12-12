@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, get_object_or_404, redirect
 import requests
 from .models import City
 from .forms import CityForm
@@ -9,6 +9,8 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 
 # Create your views here.
+city_data = []
+
 def index(request,localle_escape=False):
     # API
     url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=imperial&appid=60191ca9e0dc4470867884ba38fd64d8'
@@ -45,7 +47,7 @@ def index(request,localle_escape=False):
         except:
             pass
         
-        if request.method == 'POST':
+        if request.method == 'POST' and 'delete' not in request.POST:
             form = CityForm(request.POST)
             cityName = request.POST.get('name', False)
             form.save
@@ -57,8 +59,14 @@ def index(request,localle_escape=False):
             if cityName == False:
                 cityName = 'Normal'
             form.save
-            # redirect('weather:weather_data')
         form = CityForm()
+
+        if request.method == 'POST' and 'delete' in request.POST:
+            print('Deleted')
+            print(request.POST.get('name', False))
+            City.objects.filter(pk=request.POST.get('name', False)).delete()
+            return HttpResponseRedirect(request.path)
+            
     # Request API data and convert to json type
     city = requests.get(url.format(cityName)).json()
     clothStr = None
@@ -98,19 +106,6 @@ def index(request,localle_escape=False):
     return render(request, 'weather/index.html', context) # returns the index.html template
 
 def add(request):
-    # city_data = []
-
-    # cityName = request.POST.get('add', False)
-    # cities = City.objects.create(cityName)
-
-    # for city in cities:
-    #     city_data.append(city)
-    #     print(city_data)
-    # item = City.objects.create()
-
-    # item.setName('Chicago')
-    # item.printName()
-
     form = CityForm(request.POST)
     form.save()
 
@@ -120,6 +115,12 @@ def add(request):
     #return redirect('weather:add') OR return render(request, 'weather/index.html', context) however, you need to figure out what context will be equal to
     # OR you might not need to return or redirect anything since it's on the same page. We probably just need to refresh the page
 
-def delete(request):
-    item = City.objects.get()
-    City.objects.delete(item)
+def delete(request, pk):
+    form = get_object_or_404(City, pk=pk)
+    if request.method == 'POST':
+        form.delete()
+        return redirect('/')
+
+
+    return redirect('/')
+    
