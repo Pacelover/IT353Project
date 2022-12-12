@@ -140,13 +140,14 @@
                     <div class="container">
                         <div class="columns">
                             <div class="column is-offset-4 is-4">
-                                {% csrf_token %}
-                                <div class="field has-addons" style="text-align: center;">
-                                        <br>
-                                        <input placeholder="City Name" name="name">
-                                        <button class="button is-info">
-                                            Find City
-                                        </button>
+                                <form method="POST">
+                                    {% csrf_token %}
+                                    <div class="field has-addons" style="text-align: center;">
+                                            <br>
+                                            <input placeholder="City Name" name="name">
+                                            <button class="button is-info">
+                                                Find City
+                                            </button>
                                     </div>
                                 </form>
                             </div>
