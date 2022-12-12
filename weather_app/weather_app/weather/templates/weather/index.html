@@ -32,11 +32,11 @@
                 <br><br>
                 <form method="POST">
                     {% for city in city_data %}
-                    <li name="name"> <a href="?name={{ city }}" style="color: aquamarine;" name="name">{{ city }}</a> 
+                    <li name="name"> <a href="?name={{ city }}" style="color: aquamarine; line-height: 25pt;" name="name">{{ city }}</a> 
                         <span style="float: right;">
                             <form action="{% url 'weather:weather_delete' city.id %}" method="POST">
                                 {% csrf_token %}
-                                <input type="submit" value="Delete" style="display:inline-block; text-align:right">
+                                <input type="submit" value="Delete" style="float: left; margin: 0; text-align:right; background-color: red; color: white; border: white;">
                             </form>
                         </span>
                     </li>
