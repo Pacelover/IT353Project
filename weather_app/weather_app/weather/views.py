@@ -12,6 +12,8 @@ from django.urls import reverse
 city_data = []
 
 def index(request,localle_escape=False):
+    template_name = 'weather/index.html'
+    context_object_name = 'weather_data'
     # API
     url = 'http://api.openweathermap.org/data/2.5/weather?q={}&units=imperial&appid=60191ca9e0dc4470867884ba38fd64d8'
     # cities = City.objects.all() # return all cities in db
@@ -106,8 +108,16 @@ def index(request,localle_escape=False):
     return render(request, 'weather/index.html', context) # returns the index.html template
 
 def add(request):
+    print('User:' ,request.user)
     form = CityForm(request.POST)
-    form.save()
+    if form.is_valid():
+        obj = City()
+        obj.author = request.user
+        obj.name = request.POST['name']
+        obj.save()
+    # form.author = request.user
+    # form = City.objects.get(name=request.POST['name'], author=request.user)
+    # form.save()
 
 
     return redirect('weather:weather_data')
