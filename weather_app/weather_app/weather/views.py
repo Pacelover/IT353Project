@@ -110,9 +110,14 @@ def index(request,localle_escape=False):
 def add(request):
     print('User:' ,request.user)
     form = CityForm(request.POST)
+    if form.is_valid():
+        obj = City()
+        obj.author = request.user
+        obj.name = request.POST['name']
+        obj.save()
     # form.author = request.user
     # form = City.objects.get(name=request.POST['name'], author=request.user)
-    form.save()
+    # form.save()
 
 
     return redirect('weather:weather_data')
